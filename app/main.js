@@ -8,7 +8,7 @@ const server = net.createServer((socket) => {
             socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
         }
         else if(subData[1]==='/user-agent'){
-            const userAgentLine = data.split('\r\n')[2]
+            const userAgentLine = data.toString().split('\r\n')[2]
             console.log(userAgentLine)
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`)
         }
