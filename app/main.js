@@ -8,11 +8,8 @@ const server = net.createServer((socket) => {
             socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
         }
         else if(subData[1]==='/user-agent'){
-            const indexOfLineStart = subData.indexOf('User-Agent:')+1
-            const indexOfUserAgentStart = subData.indexOf(': ',indexOfLineStart)+1
-            const indexOfUserAgentEnd = subData.indexOf('\r',indexOfUserAgentStart)
-            const userAgent = subData.slice(indexOfUserAgentStart,indexOfUserAgentEnd)
-            console.log(userAgent,indexOfLineStart,indexOfUserAgentEnd,indexOfUserAgentStart)
+            const userAgentLine = subData.split('\r\n')[2]
+            console.log(userAgentLine)
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`)
         }
         else if(subData[1].split('/').length==3){
