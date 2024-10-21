@@ -12,6 +12,7 @@ const server = net.createServer((socket) => {
             const indexOfUserAgentStart = subData[1].indexOf(': ',indexOfLineStart)+1
             const indexOfUserAgentEnd = subData[1].indexOf('\r',indexOfUserAgentStart)
             const userAgent = subData[1].slice(indexOfUserAgentStart,indexOfUserAgentEnd)
+            console.log(userAgent,indexOfLineStart,indexOfUserAgentEnd,indexOfUserAgentStart)
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`)
         }
         else if(subData[1].split('/').length==3){
