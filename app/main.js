@@ -4,7 +4,10 @@ const net = require("net");
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
         const subData = data.toString().split(' ')
-        if(subData[1].split('/').length==3){
+        if(subData[1]=='/'){
+            socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
+        }
+        else if(subData[1].split('/').length==3){
             const text = subData[1].split('/')
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${text[text.length-1].length}\r\n\r\n${text[text.length-1]}`)
         }
