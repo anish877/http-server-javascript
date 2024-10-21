@@ -19,9 +19,9 @@ switch (command) {
 
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
-        
+
         const subData = data.toString().split(' ')
-        const [acceptEncoding,compressionScheme] = data.toString().split('\n')[4].split(' ')
+        const [acceptEncoding,compressionScheme] = data.toString().split('\n')[2].split(' ')
         if(acceptEncoding==='Accept-Encoding:' && compressionScheme==='gzip'){
             contentEncoding = 'Content-Encoding: gzip\r\n'
         }
