@@ -5,6 +5,7 @@ const path = require("path");
 const command = process.argv[2]
 const option = process.argv[3]
 let filePath
+let contentEncoding = ''
 
 switch (command) {
     case '--directory':
@@ -19,6 +20,10 @@ switch (command) {
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
         const subData = data.toString().split(' ')
+        const [acceptEncoding,compressionScheme] = data.toString().split('\n')[4].split(' ')
+        if(acceptEncoding==='Accept-Encoding:' && compressionScheme==='gzip'){
+            contentEncoding = 'Content-Encoding: gzip\r\n'
+        }
         if(subData[0]==='GET'){
             if(subData[1]==='/'){
                 socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
@@ -41,7 +46,7 @@ const server = net.createServer((socket) => {
             }
             else if(subData[1].split('/').length==3){
                 const text = subData[1].split('/')
-                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${text[text.length-1].length}\r\n\r\n${text[text.length-1]}`)
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${text[text.length-1]}`)
             }
             else{
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n')
