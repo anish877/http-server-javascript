@@ -64,7 +64,7 @@ const server = net.createServer((socket) => {
                 const text = subData[1].split('/')
                 let compressed
                 compressed = zlib.gzipSync(text[text.length-1])
-                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n`)
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${compressed.length}\r\n\r\n`)
                 socket.write(compressed.toString('hex'))
             }
             else{
