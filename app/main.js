@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require("path");
 
 const command = process.argv[1]
+console.log(command)
 const option = process.argv[2]
 let filePath
 
