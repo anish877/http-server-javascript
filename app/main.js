@@ -24,7 +24,7 @@ const server = net.createServer((socket) => {
         const acceptEncoding = data.toString().split('\r\n')[2].split(": ")
         if(acceptEncoding[0]==='Accept-Encoding')
         {
-            for (let scheme in acceptEncoding[1].split(", ")){
+            acceptEncoding[1].split(", ").forEach(scheme=>{
                 console.log(scheme)
                 if(scheme==="gzip"){
                     contentEncoding = 'Content-Encoding: gzip\r\n'
@@ -32,7 +32,7 @@ const server = net.createServer((socket) => {
                 else{
                     contentEncoding = ''
                 }
-            }
+            })
         }
         else{
             contentEncoding = ''
