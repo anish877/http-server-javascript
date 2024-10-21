@@ -29,6 +29,7 @@ const server = net.createServer((socket) => {
                 console.log(encodingSchemes[scheme])
                 if(encodingSchemes[scheme]==="gzip"){
                     contentEncoding = 'Content-Encoding: gzip\r\n'
+                    break;
                 }
                 else{
                     contentEncoding = ''
