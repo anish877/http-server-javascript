@@ -24,8 +24,10 @@ const server = net.createServer((socket) => {
         const [acceptEncoding,compressionScheme] = data.toString().split('\n')[2].split(' ')
         console.log(acceptEncoding+compressionScheme)
         if(acceptEncoding=="Accept-Encoding:"){
-            contentEncoding = 'Content-Encoding: gzip\r\n'
-            console.log(contentEncoding)
+            if(compressionScheme=="gzip"){
+                contentEncoding = 'Content-Encoding: gzip\r\n'
+                console.log(contentEncoding)
+            }
         }
         if(subData[0]==='GET'){
             if(subData[1]==='/'){
