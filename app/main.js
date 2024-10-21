@@ -1,6 +1,7 @@
 const net = require("net");
 const fs = require('fs');
 const path = require("path");
+const { gzip } = require("zlib");
 
 const command = process.argv[2]
 const option = process.argv[3]
@@ -16,6 +17,15 @@ switch (command) {
     default:
         break;
 }
+
+function compress(string, encoding) {
+    const byteArray = new TextEncoder().encode(string);
+    const cs = new CompressionStream(encoding);
+    const writer = cs.writable.getWriter();
+    writer.write(byteArray);
+    writer.close();
+    return new Response(cs.readable).arrayBuffer();
+  }
 
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
@@ -61,7 +71,8 @@ const server = net.createServer((socket) => {
             }
             else if(subData[1].split('/').length==3){
                 const text = subData[1].split('/')
-                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${text[text.length-1]}`)
+                const compressedData = compress(text[text.length-1],gzip)
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressedData}`)
             }
             else{
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n')
