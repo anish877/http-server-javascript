@@ -64,9 +64,7 @@ const server = net.createServer((socket) => {
                 const text = subData[1].split('/')
                 let compressed
                 console.log(text[text.length-1])
-                zlib.deflate(text[text.length-1],(err,compressedData)=>{
-                    compressed = compressedData.toString()
-                })
+                compressed = zlib.deflateSync(text[text.length-1])
                 console.log(compressed)
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressed}`)
             }
