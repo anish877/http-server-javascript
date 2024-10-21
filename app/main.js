@@ -1,6 +1,5 @@
 const net = require("net");
 
-// Uncomment this to pass the first stage
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
         datas = data.split(" ")
