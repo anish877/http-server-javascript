@@ -4,8 +4,14 @@ const net = require("net");
 const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
         const subData = data.toString().split(' ')
-        if(subData[1]=='/'){
+        if(subData[1]==='/'){
             socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
+        }
+        else if(subData[1]==='/user-agent'){
+            const indexOfUserAgentStart = subData[1].indexOf('User-Agent:')+1
+            const indexOfUserAgentEnd = subData[1].indexOf('\r')
+            const userAgent = subData[1].slice(indexOfUserAgentStart,indexOfUserAgentEnd)
+            socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`)
         }
         else if(subData[1].split('/').length==3){
             const text = subData[1].split('/')
