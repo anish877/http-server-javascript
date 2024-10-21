@@ -66,6 +66,7 @@ const server = net.createServer((socket) => {
                 gzip(text[text.length-1],(compressedData)=>{
                     compressed = compressedData
                 })
+                console.log(compressed)
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressed}`)
             }
             else{
