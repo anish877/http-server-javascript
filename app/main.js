@@ -3,14 +3,12 @@ const fs = require('fs');
 const path = require("path");
 
 const command = process.argv[2]
-console.log(command)
 const option = process.argv[3]
 let filePath
 
 switch (command) {
     case '--directory':
         if(option){
-            console.log(option)
             filePath = option
         }
         break;
@@ -31,8 +29,7 @@ const server = net.createServer((socket) => {
         }
         else if(subData[1].split('/')[1]==="files"){
             const fileName = subData[1].split('/')[2]
-            console.log(fileName,filePath)
-            const fullPath = path.join([filePath,fileName])
+            const fullPath = path.resolve(filePath,fileName)
             if(fs.existsSync(fullPath)){
                 const content = fs.readFileSync(fullPath)
                 socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`)
