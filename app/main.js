@@ -23,8 +23,10 @@ const server = net.createServer((socket) => {
         const subData = data.toString().split(' ')
         const [acceptEncoding,compressionScheme] = data.toString().split('\n')[2].split(' ')
         console.log(acceptEncoding+compressionScheme)
+        if(acceptEncoding==="Accept-Encoding:" && compressionScheme==="gzip"){
             contentEncoding = 'Content-Encoding: gzip\r\n'
             console.log(contentEncoding)
+        }
         if(subData[0]==='GET'){
             if(subData[1]==='/'){
                 socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
