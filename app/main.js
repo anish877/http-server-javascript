@@ -1,7 +1,7 @@
 const net = require("net");
 const fs = require('fs');
 const path = require("path");
-const { gzip } = require("zlib");
+const zlib = require('zlib')
 
 const command = process.argv[2]
 const option = process.argv[3]
@@ -63,7 +63,7 @@ const server = net.createServer((socket) => {
             else if(subData[1].split('/').length==3){
                 const text = subData[1].split('/')
                 let compressed
-                gzip(text[text.length-1],(compressedData)=>{
+                zlib.gzip(text[text.length-1],(err,compressedData)=>{
                     compressed = compressedData
                 })
                 console.log(compressed)
