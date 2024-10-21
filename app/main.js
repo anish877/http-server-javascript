@@ -62,8 +62,11 @@ const server = net.createServer((socket) => {
             }
             else if(subData[1].split('/').length==3){
                 const text = subData[1].split('/')
-                const compressedData = gzip(text[text.length-1])
-                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressedData}`)
+                let compressed
+                gzip(text[text.length-1],(compressedData)=>{
+                    compressed = compressedData
+                })
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressed}`)
             }
             else{
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n')
