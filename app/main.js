@@ -21,8 +21,8 @@ const server = net.createServer((socket) => {
     socket.on('data',(data)=>{
 
         const subData = data.toString().split(' ')
-        const acceptEncoding = data.toString().split('\r\n')[2].split(" ")
-        if(acceptEncoding[0]==='Accept-Encoding:')
+        const acceptEncoding = data.toString().split('\r\n')[2].split(": ")
+        if(acceptEncoding[0]==='Accept-Encoding')
         {
             for (let scheme in acceptEncoding[1].split(", ")){
                 console.log(scheme)
