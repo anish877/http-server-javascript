@@ -63,8 +63,9 @@ const server = net.createServer((socket) => {
             else if(subData[1].split('/').length==3){
                 const text = subData[1].split('/')
                 let compressed
-                compressed = zlib.gzipSync(text[text.length-1]).toString('base64')
-                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n${compressed}`)
+                compressed = zlib.gzipSync(text[text.length-1])
+                socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n${contentEncoding}Content-Length: ${text[text.length-1].length}\r\n\r\n`)
+                socket.write(compressed)
             }
             else{
                 socket.write('HTTP/1.1 404 Not Found\r\n\r\n')
