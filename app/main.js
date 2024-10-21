@@ -51,7 +51,7 @@ const server = net.createServer((socket) => {
             if(subData[1].split('/')[1]==="files"){
                 const fileName = subData[1].split('/')[2]
                 const fullPath = path.resolve(filePath,fileName)
-                const contentToWrite = subData.split('\r')[6]
+                const contentToWrite = data.split('\r')[6]
                 fs.writeFileSync(fullPath,contentToWrite)
                 socket.write(`HTTP/1.1 201 Created\r\n\r\n`)
             }
