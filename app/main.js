@@ -9,6 +9,7 @@ let filePath
 switch (command) {
     case '--directory':
         if(option){
+            console.log(option)
             filePath = option
         }
         break;
