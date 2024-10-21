@@ -27,6 +27,9 @@ const server = net.createServer((socket) => {
             contentEncoding = 'Content-Encoding: gzip\r\n'
             console.log(contentEncoding)
         }
+        else{
+            contentEncoding = ''
+        }
         if(subData[0]==='GET'){
             if(subData[1]==='/'){
                 socket.write(`HTTP/1.1 200 OK\r\n\r\n`)
